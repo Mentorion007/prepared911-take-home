@@ -5,7 +5,7 @@ import {
     TextField,
     Typography,
   } from "@mui/material";
-  import { useState } from "react";
+  import { useState, useRef } from "react";
   
   type CreateChatroomEditDescFormState = {
     id: string;
@@ -66,6 +66,7 @@ import {
             name="description"
             value={values.description}
             onChange={handleTextChange}
+            autoFocus
             rows={4}
             multiline
           />

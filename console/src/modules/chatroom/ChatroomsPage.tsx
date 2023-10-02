@@ -10,8 +10,8 @@ export const ChatroomsPage: React.FC = () => {
   const { data, loading } = useChatroomsListQuery();
   const [showCreateChatroomModal, setShowCreateChatroomModal] = useState(false);
 
-  const chatrooms = data?.chatrooms ?? [];
-
+  const chatrooms = data?.chatrooms ?? []; 
+  
   return (
     <Container>
       <Box display="flex" justifyContent="space-between" marginBottom={2}>

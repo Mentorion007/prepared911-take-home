@@ -1,17 +1,16 @@
 module Mutations
-    class UpdateChatroomDescription < BaseMutation
-      argument :description, String, required: true
+    class ResolveChatroom < BaseMutation
       argument :id, ID, required: true
   
       # fields
       field :chatroom, Types::ChatroomType, null: false
   
       # resolver
-      def resolve(description:, id:)
+      def resolve(id:)
         chatroom = Chatroom.find_by(id: id)
         return unless chatroom
         
-        chatroom.update(description: description)
+        chatroom.update(resolved: true)
 
         {
           chatroom: chatroom

@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 
 import { CreateChatroomEditDescModal } from "./CreateChatroomEditDescModal";
+import { CreateChatroomResolveModal } from "./CreateChatroomResolveModal";
 import { ChatroomDataFragment } from "~src/codegen/graphql";
 import { ChatroomTags } from "./ChatroomTags";
 
@@ -31,6 +32,7 @@ export const ChatroomListItem: React.FC<ChatroomListItemProps> = ({
 }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [showCreateChatroomModal, setShowCreateChatroomModal] = useState(false);
+  const [showCreateConfirmationModal, setshowCreateConfirmationModal] = useState(false);
 
   const natureCodeName = chatroom.natureCode?.name ?? "Uncategorized";
 
@@ -58,23 +60,39 @@ export const ChatroomListItem: React.FC<ChatroomListItemProps> = ({
           <Typography variant="body2">
             {chatroom.description ?? "No description provided."}
           </Typography>
-          { <Box display="flex" justifyContent="flex-end" marginTop={2} gap={1}>
+            { !chatroom.resolved && <Box display="flex" justifyContent="flex-end" marginTop={2} gap={1}>
+                <Button
+                  size="small"
+                  variant="contained"
+                  onClick={() => setShowCreateChatroomModal(true)}
+                >
+                  Edit
+                </Button>
+              </Box>
+            }
+        </Card>
+          { !chatroom.resolved && <Box display="flex" justifyContent="flex-end" marginTop={2} gap={1}>
               <Button
                 size="small"
                 variant="contained"
-                onClick={() => setShowCreateChatroomModal(true)}
+                onClick={() => setshowCreateConfirmationModal(true)}
               >
-                Edit
+                Resolve
               </Button>
             </Box>
-          }          
-        </Card>
+          } 
       </Collapse>
       <CreateChatroomEditDescModal
         open={showCreateChatroomModal}
         handleClose={() => setShowCreateChatroomModal(false)}
         chatroomId={chatroom.id}
         description={chatroom.description ?? ""}
+      />
+      <CreateChatroomResolveModal
+        open={showCreateConfirmationModal}
+        handleClose={() => setshowCreateConfirmationModal(false)}
+        chatroomId={chatroom.id}
+        label={chatroom.label}
       />
     </ChatroomCard>
   );
