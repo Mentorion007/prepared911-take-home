@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { CreateChatroomEditModal } from "./CreateChatroomEditModal";
+import { CreateChatroomEditDescModal } from "./CreateChatroomEditDescModal";
 import { ChatroomDataFragment } from "~src/codegen/graphql";
 import { ChatroomTags } from "./ChatroomTags";
 
@@ -57,8 +57,7 @@ export const ChatroomListItem: React.FC<ChatroomListItemProps> = ({
           <Typography variant="body1">Description</Typography>
           <Typography variant="body2">
             {chatroom.description ?? "No description provided."}
-          </Typography>          
-        </Card>
+          </Typography>
           { <Box display="flex" justifyContent="flex-end" marginTop={2} gap={1}>
               <Button
                 size="small"
@@ -68,11 +67,13 @@ export const ChatroomListItem: React.FC<ChatroomListItemProps> = ({
                 Edit
               </Button>
             </Box>
-          }
+          }          
+        </Card>
       </Collapse>
-      <CreateChatroomEditModal
+      <CreateChatroomEditDescModal
         open={showCreateChatroomModal}
         handleClose={() => setShowCreateChatroomModal(false)}
+        chatroomId={chatroom.id}
         description={chatroom.description ?? ""}
       />
     </ChatroomCard>

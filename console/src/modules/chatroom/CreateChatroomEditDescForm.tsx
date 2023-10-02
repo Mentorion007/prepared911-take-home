@@ -2,50 +2,41 @@ import {
     Box,
     Button,
     CircularProgress,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
     TextField,
     Typography,
   } from "@mui/material";
   import { useState } from "react";
   
-  //import { useNatureCodesQuery } from "~src/codegen/graphql";
-  
-  type CreateChatroomEditFormState = {
+  type CreateChatroomEditDescFormState = {
+    id: string;
     description: string;
   };
   
-  const isFormValid = (formState: CreateChatroomEditFormState): boolean => {
-    return true;
-  };
-  
-  export type CreateChatroomEditFormProps = {
+  export type CreateChatroomEditDescFormProps = {
     handleClose: () => void;
-    onSubmit: (values: CreateChatroomEditFormState) => Promise<void>;
+    onSubmit: (values: CreateChatroomEditDescFormState) => Promise<void>;
     description: string;
   };
   
-  export const CreateChatroomEditForm: React.FC<CreateChatroomEditFormProps> = ({
+  export const CreateChatroomEditDescForm: React.FC<CreateChatroomEditDescFormProps> = ({
     handleClose,
     onSubmit,
     description
-  }) => {
-    //const natureCodesQuery = useNatureCodesQuery();
-    //const natureCodes = natureCodesQuery.data?.natureCodes ?? [];
-  
+  }) => {  
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const defaultFormState = (): CreateChatroomEditFormState => ({
-    description: description
-  });
+    const defaultFormState = (): CreateChatroomEditDescFormState => ({
+      description: description,
+      id: ""
+    });
+
     const [values, setValues] =
-      useState<CreateChatroomEditFormState>(defaultFormState);
+      useState<CreateChatroomEditDescFormState>(defaultFormState);
   
     const [isDescriptionChanged, setIsDescriptionChanged] = useState(false);
     const handleTextChange: React.ChangeEventHandler<HTMLInputElement> = (
       event
     ) => {
-      const name = event.target.name as keyof CreateChatroomEditFormState;
+      const name = event.target.name as keyof CreateChatroomEditDescFormState;
       const value = event.target.value;
       const formattedValue = value;
   
@@ -57,7 +48,7 @@ import {
       event.preventDefault();
   
       setIsSubmitting(true);
-      await onSubmit(values);      
+      await onSubmit(values);
       setIsSubmitting(false);
   
       handleClose();

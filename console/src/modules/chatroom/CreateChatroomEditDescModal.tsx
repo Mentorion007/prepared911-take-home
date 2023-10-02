@@ -1,32 +1,41 @@
 import { Box, Card, Modal } from "@mui/material";
+import { formatErrorMessage } from "../utils/formatErrorMessage";
 import {
   ChatroomsListDocument,
-  useCreateChatroomMutation,
+  useUpdateChatroomDescriptionMutation
 } from "~src/codegen/graphql";
 import {
-  CreateChatroomEditForm,
-  CreateChatroomEditFormProps,
-} from "./CreateChatroomEditForm";
+  CreateChatroomEditDescForm,
+  CreateChatroomEditDescFormProps,
+} from "./CreateChatroomEditDescForm";
 
-export type CreateChatroomEditModalProps = {
+export type UpdateChatroomDescModalProps = {
   open: boolean;
   handleClose: () => void;
+  chatroomId: string;
   description: string;
 };
 
-export const CreateChatroomEditModal: React.FC<CreateChatroomEditModalProps> = ({
+const TRACE_ID: string = "CreateChatroomEditDescModal";
+
+export const CreateChatroomEditDescModal: React.FC<UpdateChatroomDescModalProps> = ({
   open,
   handleClose,
+  chatroomId,
   description
 }) => {
-  const [createChatroom] = useCreateChatroomMutation({
+  const [updateChatroomDescription] = useUpdateChatroomDescriptionMutation({
     refetchQueries: [ChatroomsListDocument],
   });
 
-  const handleSubmit: CreateChatroomEditFormProps["onSubmit"] = async (
+  const handleSubmit: CreateChatroomEditDescFormProps["onSubmit"] = async (
     variables
   ) => {
-    //createChatroom({ variables });
+    variables.id = chatroomId;
+    updateChatroomDescription({ variables })
+    .catch(e => {
+      console.log(formatErrorMessage(TRACE_ID, "handleSubmit", e));
+    });
   };
 
   return (
@@ -40,7 +49,7 @@ export const CreateChatroomEditModal: React.FC<CreateChatroomEditModalProps> = (
       >
         <Card variant="outlined" sx={{ minWidth: 400, padding: 2 }}>
           {open && (
-            <CreateChatroomEditForm
+            <CreateChatroomEditDescForm
               onSubmit={handleSubmit}
               handleClose={handleClose}
               description={description}

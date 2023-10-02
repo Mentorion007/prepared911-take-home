@@ -1,0 +1,15 @@
+mutation UpdateChatroomDescription(
+  $description: String!
+  $id: ID!
+) {
+  updateChatroomDescription(
+    input: {
+      id: $id
+      description: $description
+    }
+  ) {
+    chatroom {
+      ...ChatroomData
+    }
+  }
+}
